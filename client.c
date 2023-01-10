@@ -5,7 +5,7 @@ static void	send_char(unsigned char c, int pid)
 	int	j;
 
 	j = 0;
-	while(j++ < 8)
+while(j < 8)
 	{
 		if(c & 0x01)
 			kill(pid, SIGUSR1);
@@ -13,6 +13,7 @@ static void	send_char(unsigned char c, int pid)
 			kill(pid, SIGUSR2);
 		c = c >> 1;
 		usleep(100);
+		j++;
 	}
 }
 
@@ -21,14 +22,15 @@ static void	send_len(int len, int pid)
 	int	i;
 
 	i = 0;
-	while(i++ < 32)
+	while(i < 32)
 	{
 		if(len & 0x01)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
 		len = len >> 1;
-		usleep(100);	
+		usleep(100);
+		i++;
 	}
 }
 

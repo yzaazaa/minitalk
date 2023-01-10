@@ -1,6 +1,6 @@
 #include "minitalk.h"
 
-static void	receive_len(int *bit, char **str, int *received, int sig)
+static void	receive_len(int *bit, char **str, int *is_alloc, int sig)
 {
 	static int len;
 
@@ -9,7 +9,7 @@ static void	receive_len(int *bit, char **str, int *received, int sig)
 		len += ft_recursive_power(2, *bit);
 	if(*bit == 31)
 	{
-		*received = 1;
+		*is_alloc = 1;
 		*str = ft_calloc(len + 1, sizeof(char));
 		*bit = 0;
 		len = 0;
@@ -18,9 +18,9 @@ static void	receive_len(int *bit, char **str, int *received, int sig)
 	(*bit)++;
 }
 
-static void	restart_vars(int *received, char **str, int *i)
+static void	restart_vars(int *is_alloc, char **str, int *i)
 {
-	*received = 0;
+	*is_alloc = 0;
 	if(str)
 	{
 		ft_putstr(*str);
@@ -33,19 +33,14 @@ static void	restart_vars(int *received, char **str, int *i)
 
 static void	receive_info(int sig)
 {
-	static int	char_val;
-	static int	bit;
-	static int	len;
-	static int	i;
-	static char	*str;
+	static int	char_val = 0;
+	static int	bit = 0;
+	static int	is_alloc = 0;
+	static int	i = 0;
+	static char	*str = 0;
 
-	char_val = 0;
-	bit = 0;
-	len = 0;
-	i = 0;
-	str = 0;
-	if(!len)
-		receive_len(&bit, &str, &len, sig);
+	if(!is_alloc)
+		receive_len(&bit, &str, &is_alloc, sig);
 	else
 	{
 		if(sig == SIGUSR1)
@@ -55,7 +50,7 @@ static void	receive_info(int sig)
 			str[i++] = char_val;
 			bit = 0;
 			if(char_val == 0)
-				return(restart_vars(&len, &str, &i));
+				return(restart_vars(&is_alloc, &str, &i));
 			char_val = 0;
 			return ;
 		}
