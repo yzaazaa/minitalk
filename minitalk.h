@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 05:34:49 by yzaazaa           #+#    #+#             */
-/*   Updated: 2023/11/25 06:02:20 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2023/11/25 06:13:07 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int		ft_isdigit(int c);
 void	check_args(int argc, char **argv);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-void	*ft_calloc(size_t count, size_t size);
 int		ft_recursive_power(int nb, int power);
 
 #endif

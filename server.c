@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 05:34:00 by yzaazaa           #+#    #+#             */
-/*   Updated: 2023/11/25 05:54:58 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2023/11/25 06:12:55 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	ft_len(int *bit, char **str, int *is_alloc, int sig)
 	if (*bit == 31)
 	{
 		*is_alloc = 2;
-		*str = ft_calloc(len + 1, sizeof(char));
+		*str = malloc(len + 1);
 		*bit = 0;
 		len = 0;
 		return ;

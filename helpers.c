@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 05:48:52 by yzaazaa           #+#    #+#             */
-/*   Updated: 2023/11/25 05:46:39 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2023/11/25 06:13:03 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,6 @@ size_t	ft_strlen(const char *s)
 	while (*s++)
 		len++;
 	return (len);
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	void	*ptr;
-	size_t	i;
-
-	ptr = malloc(count * size);
-	if (!ptr)
-		return (NULL);
-	i = 0;
-	while (i < count * size)
-		((char *)ptr)[i++] = 0;
-	return (ptr);
 }
 
 int	ft_recursive_power(int nb, int power)

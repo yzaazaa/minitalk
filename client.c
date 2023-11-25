@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 05:33:53 by yzaazaa           #+#    #+#             */
-/*   Updated: 2023/11/25 05:58:13 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2023/11/25 06:14:05 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	handler(int sig)
 {
 	if (sig == SIGUSR1)
 	{
-		ft_putstr_fd("Message received by server\n", 1);
+		ft_putstr_fd("Message received by server.\n", 1);
 		g_received = 1;
 	}
 }
