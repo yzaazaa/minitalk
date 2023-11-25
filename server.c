@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 05:34:00 by yzaazaa           #+#    #+#             */
-/*   Updated: 2023/11/25 03:49:33 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2023/11/25 05:54:58 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,60 +42,57 @@ static void	ft_pid(int *bit, int *is_calloc, int sig, int *pid)
 	(*bit)++;
 }
 
-static void	restart_vars(int *is_alloc, char **str, int *i, int pid)
+static void	restart_vars(int *is_alloc, char **str, int *i, int *pid)
 {
 	*is_alloc = 0;
 	if (str)
 	{
-		kill(pid, SIGUSR1);
+		kill(*pid, SIGUSR1);
 		usleep(100);
 		ft_putstr_fd(*str, 1);
 		ft_putstr_fd("\n", 1);
 		free(*str);
 		*str = NULL;
 	}
+	*pid = 0;
 	*i = 0;
 }
 
 static void	handler(int sig)
 {
-	static int	ascii;
-	static int 	bit;
-	static int  is_alloc;
-	static int	i;
-	static char	*str;
-	static int	pid;
+	static t_data	data;
+	static int		i;
 
-	if (!is_alloc)
-		ft_pid(&bit, &is_alloc, sig, &pid);
-	else if (is_alloc == 1)
-		ft_len(&bit, &str, &is_alloc, sig);
+	if (!data.is_alloc)
+		ft_pid(&data.bit, &data.is_alloc, sig, &data.pid);
+	else if (data.is_alloc == 1)
+		ft_len(&data.bit, &data.str, &data.is_alloc, sig);
 	else
 	{
 		if (sig == SIGUSR1)
-			ascii += ft_recursive_power(2, bit);
-		if (bit == 7)
+			data.ascii += ft_recursive_power(2, data.bit);
+		if (data.bit == 7)
 		{
-			str[i++] = ascii;
-			bit = 0;
-			if (ascii == 0)
+			data.str[i++] = data.ascii;
+			data.bit = 0;
+			if (data.ascii == 0)
 			{
-				restart_vars(&is_alloc, &str, &i, pid);
-				pid = 0;
+				restart_vars(&data.is_alloc, &data.str, &i, &data.pid);
 				return ;
 			}
-			ascii = 0;
+			data.ascii = 0;
 			return ;
 		}
-		bit++;
+		data.bit++;
 	}
 }
 
-int	main()
+int	main(void)
 {
 	int	id;
 
 	id = (int)getpid();
+	ft_putstr_fd("Server PID: ", 1);
 	ft_putnbr_fd(id, 1);
 	ft_putstr_fd("\n", 1);
 	signal(SIGUSR1, handler);

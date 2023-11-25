@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 05:33:53 by yzaazaa           #+#    #+#             */
-/*   Updated: 2023/11/25 03:34:20 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2023/11/25 05:58:13 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	g_received = 0;
 
-static void send_char(unsigned char c, int pid)
+static void	send_char(unsigned char c, int pid)
 {
 	int	i;
 
@@ -31,23 +31,22 @@ static void send_char(unsigned char c, int pid)
 	}
 }
 
-static void	send_len(int len, int pid)
+static void	send_num(int num, int pid)
 {
 	int	i;
 
 	i = 0;
 	while (i < 32)
 	{
-		if (len & 1)
+		if (num & 1)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		len = len >> 1;
+		num = num >> 1;
 		usleep(100);
 		i++;
 	}
 }
-
 
 static void	handler(int sig)
 {
@@ -58,33 +57,35 @@ static void	handler(int sig)
 	}
 }
 
+static void	init_vars(int *pid, char **str, char **av)
+{
+	*pid = ft_atoi(av[1]);
+	if (*pid <= 0)
+	{
+		ft_putstr_fd("Invalid PID\n", 2);
+		exit(1);
+	}
+	*str = av[2];
+}
+
 int	main(int ac, char **av)
 {
-	int	pid;
-	char *str;
-	int	len;
-	int	i;
-	int	id;
+	int		pid;
+	char	*str;
+	int		len;
+	int		i;
+	int		id;
 
 	signal(SIGUSR1, handler);
 	check_args(ac, av);
-	pid = ft_atoi(av[1]);
-	if (pid <= 0)
-	{
-		ft_putstr_fd("Invalid PID\n", 2);
-		exit(EXIT_FAILURE);
-	}
-	str = av[2];
+	init_vars(&pid, &str, av);
 	len = ft_strlen(str);
 	id = (int)getpid();
-	send_len(id, pid);
-	send_len(len, pid);
+	send_num(id, pid);
+	send_num(len, pid);
 	i = 0;
 	while (str[i])
-	{
-		send_char(str[i], pid);
-		i++;
-	}
+		send_char(str[i++], pid);
 	send_char(str[i], pid);
 	while (!g_received)
 		usleep(100);
