@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 05:48:52 by yzaazaa           #+#    #+#             */
-/*   Updated: 2023/11/25 06:13:03 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2023/11/25 06:21:02 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ size_t	ft_strlen(const char *s)
 	size_t	len;
 
 	len = 0;
-	while (*s++)
+	while (s && *s++)
 		len++;
 	return (len);
 }
