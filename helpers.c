@@ -1,114 +1,128 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   helpers.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/24 05:48:52 by yzaazaa           #+#    #+#             */
+/*   Updated: 2023/11/24 06:02:47 by yzaazaa          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
 
-int	ft_atoi(const char *nptr)
+int	ft_isdigit(int c)
 {
-	int	ret;
-	int	sign;
-	char 	*ptr;
+	return (c >= '0' && c <= '9');
+}
 
-	ret = 0;
-	sign = 1;
-	ptr = (char *)nptr;
-	if(!ptr)
+int	ft_atoi(const char *str)
+{
+	int	result;
+	int	sign;
+	
+	if (!str)
 		return (0);
-	while(*ptr >= 0 && *ptr <= 32)
-		ptr++;
-	if(*ptr == '-' || *ptr == '+')
+	result = 0;
+	sign = 1;
+	if (*str == '-')
+		sign *= -1;
+	if (*str == '-' || *str == '+')
+		str++;
+	while (ft_isdigit(*str))
 	{
-		if(*ptr == '-')
-			sign = -1;
-		ptr++;
+		result = result * 10 + (*str - '0');
+		str++;
 	}
-	while(*ptr >= '0' && *ptr <= '9')
-	{
-		ret = ret * 10 + (*ptr - '0');
-		ptr++;
-	}
-	return (sign * ret);
+	return (result * sign);
 }
 
 size_t	ft_strlen(const char *s)
 {
-	size_t	i;
-	
-	i = 0;
-	while(s[i++]);
-	return (i - 1);
+	size_t	len;
+
+	len = 0;
+	while (*s++)
+		len++;
+	return (len);
 }
 
-int	ft_isdigit(int c)
+void	ft_putstr_fd(char *s, int fd)
 {
-	if(c >= '0' && c <= '9')
-		return (1);
-	return (0);
+	if (!s)
+		return ;
+	write(fd, s, ft_strlen(s));
 }
 
-void	ft_putchar(char c)
+void	ft_putchar_fd(char c, int fd)
 {
-	write(1, &c, 1);
+	write(fd, &c, 1);
 }
 
-void	ft_putstr(char const *s)
+void	ft_putnbr_fd(int n, int fd)
 {
-	if(s)
-		write(1, s, ft_strlen(s));
-}
-
-void	ft_putnbr(int n)
-{
-	if(n == -2147483648)
+	if (n == -2147483648)
 	{
-		ft_putstr("-2147483648");
+		ft_putstr_fd("-2147483648", fd);
 		return ;
 	}
-	if(n < 0)
+	if (n < 0)
 	{
-		ft_putchar('-');
-		n = -n;
+		n *= -1;
+		ft_putstr_fd("-", fd);
 	}
-	if(n > 9)
-		ft_putnbr(n / 10);
-	ft_putchar((n % 10) + '0');
+	if (n > 9)
+		ft_putnbr_fd(n / 10, fd);
+	ft_putchar_fd((n % 10) + '0', fd);
 }
 
-void	*ft_memset(void *s, int c, size_t n)
-{
-	unsigned char	*str;
-	size_t		i;
-
-	i = 0;
-	str = (unsigned char *)s;
-	while(i++ < n)
-	{
-		*str = (char)c;
-		str++;
-	}
-	return (s);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	ft_memset(s, 0, n);
-}
-void	*ft_calloc(size_t nmemb, size_t size)
+void	*ft_calloc(size_t count, size_t size)
 {
 	void	*ptr;
+	size_t	i;
 
-	ptr = malloc(nmemb * size);
-	if(!ptr)
-		exit(0);
-	ft_bzero(ptr, nmemb * size);
+	ptr = malloc(count * size);
+	if (!ptr)
+		return (NULL);
+	i = 0;
+	while (i < count * size)
+		((char *)ptr)[i++] = 0;
 	return (ptr);
 }
 
-int     ft_recursive_power(int nb, int power)
+int	ft_recursive_power(int nb, int power)
 {
-    if(power < 0)
-        return (0);
-    else if(power == 0)
-        return (1);
-    else if(power == 1)
-        return (nb);
-    else
-        return (nb * ft_recursive_power(nb, power - 1));
+	if (power < 0)
+		return (0);
+	if (power == 0)
+		return (1);	
+	return (nb * ft_recursive_power(nb, power - 1));
+}
+
+static int	ft_isnum(char *str)
+{
+	if (str[0] == '-' || str[0] == '+')
+		str++;
+	while (*str)
+	{
+		if (!ft_isdigit(*str))
+			return (0);
+		str++;
+	}
+	return (1);	
+}
+
+void	check_args(int argc, char **argv)
+{
+	if (argc != 3)
+	{
+		ft_putstr_fd("Error\n", 1);
+		exit(1);
+	}
+	if (ft_isnum(argv[1]) == 0)
+	{
+		ft_putstr_fd("Error\n", 1);
+		exit(1);
+	}
 }
