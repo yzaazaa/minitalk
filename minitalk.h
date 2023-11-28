@@ -5,34 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/24 05:34:49 by yzaazaa           #+#    #+#             */
-/*   Updated: 2023/11/25 06:13:07 by yzaazaa          ###   ########.fr       */
+/*   Created: 2023/11/27 08:48:59 by yzaazaa           #+#    #+#             */
+/*   Updated: 2023/11/28 15:29:35 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINITALK_H
 # define MINITALK_H
 
-# include <signal.h>
+# include "ft_printf/ft_printf.h"
 # include <unistd.h>
-# include <stdlib.h>
+# include <signal.h>
+# include <sys/types.h>
 
-typedef struct s_data
-{
-	int		ascii;
-	int		bit;
-	int		is_alloc;
-	char	*str;
-	int		pid;
-}	t_data;
-
-int		ft_isdigit(int c);
 int		ft_atoi(const char *str);
-size_t	ft_strlen(const char *s);
-int		ft_isdigit(int c);
-void	check_args(int argc, char **argv);
-void	ft_putstr_fd(char *s, int fd);
-void	ft_putnbr_fd(int n, int fd);
-int		ft_recursive_power(int nb, int power);
+void	ft_error(char *message);
 
 #endif

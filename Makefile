@@ -1,41 +1,74 @@
-CC = cc
-
-CFLAGS = -Wall -Wextra -Werror
-
+# HEADER FILES
 HEADER = minitalk.h
 
-CLIENT_SRC = client.c helpers.c checks.c ft_puts.c
-SERVER_SRC = server.c helpers.c ft_puts.c
+# SOURCE FILES
+SERVER_SRCS = server.c error.c
 
-CLIENT_OBJ = $(CLIENT_SRC:.c=.o)
-SERVER_OBJ = $(SERVER_SRC:.c=.o)
-OBJS = $(CLIENT_OBJ) $(SERVER_OBJ)
+CLIENT_SRCS = client.c ft_atoi.c error.c
 
+SERVER_BONUS_SRCS = server_bonus.c error.c
+
+CLIENT_BONUS_SRCS = client_bonus.c ft_atoi.c error.c
+
+SRCS = $(SERVER_SRCS) $(CLIENT_SRCS)
+
+PRINTF = ft_printf/libftprintf.a
+
+# OBJECT FILES
+SERVER_OBJS = ${SERVER_SRCS:.c=.o}
+
+CLIENT_OBJS = ${CLIENT_SRCS:.c=.o}
+
+SERVER_BONUS_OBJS = ${SERVER_BONUS_SRCS:.c=.o}
+
+CLIENT_BONUS_OBJS = ${CLIENT_BONUS_SRCS:.c=.o}
+
+OBJS = $(SERVER_OBJS) $(CLIENT_OBJS)
+
+BONUS_OBJS = $(SERVER_BONUS_OBJS) $(CLIENT_BONUS_OBJS)
+
+# EXECUTABLES
 CLIENT = client
+
 SERVER = server
-NAME = server_client
 
-all: $(NAME)
+NAME = $(CLIENT) $(SERVER)
 
-$(NAME): $(CLIENT) $(SERVER)
+# COMPILER
+COMP = cc
 
-$(CLIENT): $(CLIENT_OBJ)
-	@echo "Making the $@..."
-	@$(CC) $(CFLAGS) -o $(CLIENT) $(CLIENT_OBJ)
+# FLAGS
+CFLAGS = -Wall -Wextra -Werror
 
-$(SERVER): $(SERVER_OBJ)
-	@echo "Making the $@..."
-	@$(CC) $(CFLAGS) -o $(SERVER) $(SERVER_OBJ)
+# RULES
+all : $(NAME)
 
-%.o: %.c $(HEADER)
-	@echo "Compiling $<"
-	@$(CC) $(CFLAGS) -c $<
+%.o : %.c $(HEADER)
+	@echo "Compiling $< ..."
+	@$(COMP) $(CFLAGS) -c $< 
 
-clean:
-	@echo "Cleaning up..."
-	@rm -f $(OBJS)
+$(NAME) : $(OBJS)
+	@echo "Making libftprintf ..."
+	@make -C ft_printf/
+	$(COMP) $(CFLAGS) $(SERVER_OBJS) $(PRINTF) -o $(SERVER)
+	$(COMP) $(CFLAGS) $(CLIENT_OBJS) $(PRINTF) -o $(CLIENT)
 
-fclean: clean
-	@rm -f $(CLIENT) $(SERVER)
+bonus : $(BONUS_OBJS)
+	@echo "Making libftprintf ..."
+	@make -C ft_printf/
+	$(COMP) $(CFLAGS) $(SERVER_BONUS_OBJS) $(PRINTF) -o $(SERVER)
+	$(COMP) $(CFLAGS) $(CLIENT_BONUS_OBJS) $(PRINTF) -o $(CLIENT)
 
-re: fclean clean
+clean : 
+	@make clean -C ft_printf
+	@echo "Deleting $(OBJS)"
+	@echo "Deleting $(BONUS_OBJS)"
+	@rm -f $(OBJS) $(BONUS_OBJS)
+
+fclean :
+	@make fclean -C ft_printf
+	@rm -f  $(OBJS) $(BONUS_OBJS) $(NAME)
+
+re : fclean all
+
+.PHONY : fclean clean
