@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 08:54:02 by yzaazaa           #+#    #+#             */
-/*   Updated: 2023/11/28 15:10:17 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2023/12/03 18:17:29 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	send_char(int pid, unsigned char c)
 		else 
 			if (kill(pid, SIGUSR2) == -1)
 				ft_error("Couldn't send signal!\n");
-		usleep(100);
+		usleep(200);
 		i++;
 	}
 }

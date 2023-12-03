@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 10:20:04 by yzaazaa           #+#    #+#             */
-/*   Updated: 2023/11/28 11:25:10 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2023/12/03 18:05:04 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 void	ft_error(char *message)
 {
 	if (message)
-		ft_printf(message);
+		ft_putstr(message);
 	exit(1);
 }

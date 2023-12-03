@@ -2,17 +2,15 @@
 HEADER = minitalk.h
 
 # SOURCE FILES
-SERVER_SRCS = server.c error.c
+SERVER_SRCS = server.c error.c ft_put.c
 
-CLIENT_SRCS = client.c ft_atoi.c error.c
+CLIENT_SRCS = client.c ft_atoi.c error.c ft_put.c
 
-SERVER_BONUS_SRCS = server_bonus.c error.c
+SERVER_BONUS_SRCS = server_bonus.c error.c ft_put.c
 
-CLIENT_BONUS_SRCS = client_bonus.c ft_atoi.c error.c
+CLIENT_BONUS_SRCS = client_bonus.c ft_atoi.c error.c ft_put.c
 
 SRCS = $(SERVER_SRCS) $(CLIENT_SRCS)
-
-PRINTF = ft_printf/libftprintf.a
 
 # OBJECT FILES
 SERVER_OBJS = ${SERVER_SRCS:.c=.o}
@@ -32,7 +30,13 @@ CLIENT = client
 
 SERVER = server
 
+CLIENT_BONUS = client_bonus
+
+SERVER_BONUS = server_bonus
+
 NAME = $(CLIENT) $(SERVER)
+
+NAME_BONUS = $(CLIENT_BONUS) $(SERVER_BONUS)
 
 # COMPILER
 COMP = cc
@@ -48,26 +52,20 @@ all : $(NAME)
 	@$(COMP) $(CFLAGS) -c $< 
 
 $(NAME) : $(OBJS)
-	@echo "Making libftprintf ..."
-	@make -C ft_printf/
-	$(COMP) $(CFLAGS) $(SERVER_OBJS) $(PRINTF) -o $(SERVER)
-	$(COMP) $(CFLAGS) $(CLIENT_OBJS) $(PRINTF) -o $(CLIENT)
+	$(COMP) $(CFLAGS) $(SERVER_OBJS) -o $(SERVER)
+	$(COMP) $(CFLAGS) $(CLIENT_OBJS) -o $(CLIENT)
 
 bonus : $(BONUS_OBJS)
-	@echo "Making libftprintf ..."
-	@make -C ft_printf/
-	$(COMP) $(CFLAGS) $(SERVER_BONUS_OBJS) $(PRINTF) -o $(SERVER)
-	$(COMP) $(CFLAGS) $(CLIENT_BONUS_OBJS) $(PRINTF) -o $(CLIENT)
+	$(COMP) $(CFLAGS) $(SERVER_BONUS_OBJS) -o $(SERVER_BONUS)
+	$(COMP) $(CFLAGS) $(CLIENT_BONUS_OBJS) -o $(CLIENT_BONUS)
 
 clean : 
-	@make clean -C ft_printf
-	@echo "Deleting $(OBJS)"
-	@echo "Deleting $(BONUS_OBJS)"
+	@echo "Deleting object files"
 	@rm -f $(OBJS) $(BONUS_OBJS)
 
 fclean :
-	@make fclean -C ft_printf
-	@rm -f  $(OBJS) $(BONUS_OBJS) $(NAME)
+	@echo "Deleting all"
+	@rm -f  $(OBJS) $(BONUS_OBJS) $(NAME) $(NAME_BONUS)
 
 re : fclean all
 

@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 08:54:02 by yzaazaa           #+#    #+#             */
-/*   Updated: 2023/11/28 15:14:11 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2023/12/03 18:18:02 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	handler(int signum)
 {
 	if (signum == SIGUSR2)
 	{
-		ft_printf("Message sent!\n");
+		ft_putstr("Message sent!\n");
 		exit(0);
 	}
 }

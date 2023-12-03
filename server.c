@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 08:47:32 by yzaazaa           #+#    #+#             */
-/*   Updated: 2023/11/28 15:34:01 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2023/12/03 18:18:41 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,15 @@ int	main(void)
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = &handler;
 	pid_server = getpid();
-	ft_printf("SERVER PID: %d\n", pid_server);
-	while (42)
+	ft_putstr("SERVER PID : ");
+	ft_putpid(pid_server);
+	ft_putchar('\n');
+	while (420)
 	{
-		sigaction(SIGUSR1, &sa, NULL);
-		sigaction(SIGUSR2, &sa, NULL);
+		if (sigaction(SIGUSR1, &sa, NULL) == -1)
+			ft_error("SIGACTION ERROR!");
+		if (sigaction(SIGUSR2, &sa, NULL) == -1)
+			ft_error("SIGACTION ERROR!");
 	}
 	return (0);
 }

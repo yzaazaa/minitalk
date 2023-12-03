@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 22:06:43 by yzaazaa           #+#    #+#             */
-/*   Updated: 2023/11/27 09:08:32 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2023/12/03 17:52:05 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,7 @@ int	ft_atoi(const char *str)
 		res = tmp;
 		i++;
 	}
+	if (str[i] != '\0')
+		return (-1);
 	return (res * sign);
 }
